@@ -1,32 +1,66 @@
-const { NotImplementedError } = require('../extensions/index.js');
+const { NotImplementedError } = require("../extensions/index.js");
 
 /**
  * Implement chainMaker object according to task description
- * 
+ *
  */
+
 const chainMaker = {
+  chain: [],
   getLength() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    return this.chain.length;
   },
-  addLink(/* value */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  addLink(value) {
+    if (arguments.length == 0) {
+      this.chain.push(" ");
+    } else {
+      this.chain.push(value);
+    }
+
+    return this;
   },
-  removeLink(/* position */) {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+  removeLink(position) {
+    if (
+      !Number.isInteger(position) ||
+      position > this.chain.length ||
+      position <= 0
+    ) {
+      this.chain = [];
+      throw new Error("You can't remove incorrect link!");
+    }
+
+    let newArr = [];
+
+    for (let index = 0; index < this.chain.length; index++) {
+      if (position != index + 1) {
+        newArr.push(this.chain[index]);
+      }
+    }
+    this.chain = newArr;
+    return this;
   },
   reverseChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
+    let reversedChain = [];
+    for (let index = this.chain.length - 1; index >= 0; index--) {
+      reversedChain.push(this.chain[index]);
+    }
+    this.chain = reversedChain;
+    return this;
   },
   finishChain() {
-    throw new NotImplementedError('Not implemented');
-    // remove line with error and write your code here
-  }
+    let finalChain = "";
+    for (let index = 0; index < this.chain.length; index++) {
+      if (index == this.chain.length - 1) {
+        finalChain += `( ${this.chain[index]} )`;
+      } else {
+        finalChain += `( ${this.chain[index]} )~~`;
+      }
+    }
+    this.chain = [];
+    return `${finalChain}`;
+  },
 };
 
 module.exports = {
-  chainMaker
+  chainMaker,
 };
